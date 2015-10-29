@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="eu.cobwebproject.qa" version="0.0.1">
+  <name>Cobweb-QA</name>
+  <description>Cobweb QA library cordova plugin</description>
+  <license>BSD-3</license>
+  <keywords>cordova,cobweb,qa</keywords>
+  <js-module src="www/qa.js" name="qa">
+    <clobbers target="cordova.plugins.qa" />
+  </js-module>
+  <platform name="android">
+    <config-file target="config.xml" parent="/*">
+      <feature name="Cobweb-QA">
+        <param name="android-package" value="eu.cobwebproject.qa.CobwebQA"/>
+      </feature>
+    </config-file>
+    <source-file src="src/android/eu/cobwebproject/qa/CobwebQA.java" target-dir="src/eu/cobwebproject/qa/" />
+    <source-file src="src/android/libs/cobweb-qa-0.2.0.jar" target-dir="libs" />
+  </platform>
+</plugin>
