@@ -1,5 +1,6 @@
 var exec = require('cordova/exec');
 
-var isBlurred = function(success, error, service, action, params) {
+exports.isBlurred = function(success, error, params) {
     console.log("=>");
+    exec(success, error, "CobwebQA", "isBlurred", []);
 };

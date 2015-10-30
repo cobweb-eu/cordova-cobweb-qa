@@ -8,6 +8,10 @@ import android.graphics.BitmapFactory;
 
 public class LaplacePhotoBlurCheckAndroid extends LaplacePhotoBlurCheck{
 
+    public LaplacePhotoBlurCheckAndroid(){
+        super();
+    }
+            
     public LaplacePhotoBlurCheckAndroid(File imageFile, int threshold){
         super(imageFile, threshold);
     }
@@ -26,6 +30,11 @@ public class LaplacePhotoBlurCheckAndroid extends LaplacePhotoBlurCheck{
     IImage createImage(int width, int height, int type) {
         return new AImage(Bitmap.createBitmap(width, height, Bitmap.Config.values()[type]));
     }
+    
+    @Override
+    IImage createImage(int width, int height) {
+        return new AImage(Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888));
+    }
 
     @Override
     IImage createImageGreyscale(int width, int height) {
@@ -34,7 +43,7 @@ public class LaplacePhotoBlurCheckAndroid extends LaplacePhotoBlurCheck{
     }
 
     @Override
-    IImage read(File file) throws IOException {
+    public IImage read(File file) throws IOException {
         return new AImage(BitmapFactory.decodeFile(file.getPath()));
     }
 }

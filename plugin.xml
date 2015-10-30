@@ -5,16 +5,25 @@
   <description>Cobweb QA library cordova plugin</description>
   <license>BSD-3</license>
   <keywords>cordova,cobweb,qa</keywords>
-  <js-module src="www/qa.js" name="qa">
+  <js-module src="www/qa.js" name="CobwebQA">
     <clobbers target="cordova.plugins.qa" />
   </js-module>
   <platform name="android">
     <config-file target="config.xml" parent="/*">
-      <feature name="Cobweb-QA">
+      <feature name="CobwebQA">
         <param name="android-package" value="eu.cobwebproject.qa.CobwebQA"/>
       </feature>
     </config-file>
-    <source-file src="src/android/eu/cobwebproject/qa/CobwebQA.java" target-dir="src/eu/cobwebproject/qa/" />
+    <source-file src="src/android/eu/cobwebproject/qa/CobwebQA.java"
+                 target-dir="src/eu/cobwebproject/qa/" />
+    <source-file src="src/android/eu/cobwebproject/qa/automaticvalidation/LaplacePhotoBlurCheckAndroid.java"
+                 target-dir="src/eu/cobwebproject/qa/automaticvalidation" />
+    <source-file src="src/android/eu/cobwebproject/qa/automaticvalidation/AColour.java"
+                 target-dir="src/eu/cobwebproject/qa/automaticvalidation" />
+    <source-file src="src/android/eu/cobwebproject/qa/automaticvalidation/AImage.java"
+                 target-dir="src/eu/cobwebproject/qa/automaticvalidation" />
+    <source-file src="src/android/eu/cobwebproject/qa/automaticvalidation/NativeBlurCheck.java"
+                 target-dir="src/eu/cobwebproject/qa/automaticvalidation" />
     <source-file src="src/android/libs/cobweb-qa-0.2.0.jar" target-dir="libs" />
   </platform>
 </plugin>
