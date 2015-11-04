@@ -2,6 +2,7 @@ package eu.cobwebproject.qa;
 
 import java.io.File;
 
+import android.content.Context;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
@@ -11,12 +12,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
-import eu.cobwebproject.qa.automaticvalidation.IImage;
-import eu.cobwebproject.qa.automaticvalidation.LaplacePhotoBlurCheck;
-import eu.cobwebproject.qa.automaticvalidation.LaplacePhotoBlurCheckAndroid;
-import eu.cobwebproject.qa.automaticvalidation.NativeBlurCheck;
+import eu.cobwebproject.qa.automaticvalidation.BlurCheckAndroid;
 
 public class CobwebQA extends CordovaPlugin {
+    //TODO: convert these to parameters
+    private final int threshold = 1500;
+    private final boolean debug = true;
 
     @Override
 	public boolean execute(String action,
@@ -24,27 +25,26 @@ public class CobwebQA extends CordovaPlugin {
                            CallbackContext callbackContext) throws JSONException {
         if(action.equals("isBlurred")){
             try{
+                Context ctx = this.cordova.getActivity().getApplicationContext(); 
+
                 String file = Environment.getExternalStorageDirectory().toString() + "/Pictures/flower_blurred.png";
                 Log.i("CobwebQA", file);
+
                 File testImage = new File(file);
-                //LaplacePhotoBlurCheck lap = new LaplacePhotoBlurCheckAndroid(testImage, 200);
-                LaplacePhotoBlurCheck lap = new LaplacePhotoBlurCheckAndroid();
-                IImage pic1 = lap.read(testImage);
-                lap.getLaplaceImage(pic1);
+                BlurCheckAndroid lap = new BlurCheckAndroid(testImage, threshold, debug);
+                lap.setContext(ctx); //required by RenderScript
+                lap.run();
                 Log.i("CobwebQA", "---------------------------------------------------------------");
-                //Log.i("CobwebQA", "result:" + lap.getPassDecision());
+                Log.i("CobwebQA", "result:" + lap.pass);
                 
-                Bitmap pic2 = BitmapFactory.decodeFile(testImage.getPath());
-                new NativeBlurCheck().getLaplaceImage(pic2);
-                
-                /*
                 String file2 = Environment.getExternalStorageDirectory().toString() + "/Pictures/flower_sharp.jpg";
                 Log.i("CobwebQA", file2);
                 testImage = new File(file2);
-                lap = new LaplacePhotoBlurCheckAndroid(testImage, 200);
+                lap = new BlurCheckAndroid(testImage, threshold, debug);
+                lap.setContext(ctx); //required by RenderScript
+                lap.run();
                 Log.i("CobwebQA", "---------------------------------------------------------------");
-                Log.i("CobwebQA", "result:" + lap.getPassDecision());
-                */
+                Log.i("CobwebQA", "result:" + lap.pass);
             }
             catch(Exception ex){
                 Log.i("CobwebQA", ex.toString());
