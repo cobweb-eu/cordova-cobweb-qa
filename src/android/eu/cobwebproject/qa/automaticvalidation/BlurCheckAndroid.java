@@ -30,57 +30,37 @@ import android.renderscript.Element;
 * 3. Calculate variance of result and compare with user defined threshold
 *
 * Example Usage:
-*     test = new BlurCheckAndroid(myimage, 1000, true);
-*      test.setContext(cordovaContext);
+*     test = new BlurCheckAndroid(myimage, 100, true, cordovaContext);
 *      test.run();
 *      if (test.pass){ //.. test has passed
 *
 * 
 * @author EDINA
 */
-public class BlurCheckAndroid implements Runnable {
-        /*********/
+public class BlurCheckAndroid extends BlurCheckRunnable {
 
-        /* the actual Kernel. Any 3x3 kernel should work here for experimentation e.g. {-1,-1,-1,-1,8,-1,-1,-1,-1}  */
-        public static final float LAPLACE_KERNEL[]={0,-1,0,-1,4,-1,0,-1,0};
-        /* Check this after the test is run for the result. This is null if process has not yet been "run()" */
-        public Boolean pass;
-
-        /*********/
-
-        private File file;
-        private int threshold;
         private Bitmap original;
-        private boolean debug;
         private Context context;
 
         /** use this for debug messages for now */
-        private void dbg(String msg){
+        @Override
+        protected void dbg(String msg){
              Log.i("BlurCheckAndroid", msg);
         }
 
-        /** Theshold is the desired variance i.e. the higher the sharper ( 1500 is a good start) */ 
-        public BlurCheckAndroid(File imageFile, int threshold, boolean debug){
-            this.context = null;
-            this.pass = null;
-            this.file = imageFile;
-            this.threshold = threshold;
-            this.debug = debug;
+        /** Theshold is the desired variance i.e. the higher the sharper ( 1500 is a good start) 
+        * Android versions need a Context for RenderScript from e.g. CordovaPlugin.
+        */ 
+        public BlurCheckAndroid(File imageFile, int threshold, boolean debug, Context ctx){
+            super(imageFile, threshold, debug);
+            this.context = ctx;
             this.original=BitmapFactory.decodeFile(imageFile.getPath());
             dbg("image size = " + original.getWidth() + " " + original.getHeight());
         }
-    
-        /** Set the context as required by RenderScript. CordovaPlugins provide their own. */
-        public void setContext(Context ctx){
-            this.context = ctx;
-        }
 
         /** Executes the test. Can run as a thread but should be quite fast anyway */
+        @Override
         public void run(){
-            if (this.context == null){
-                dbg("called run() before setting the context variable. Aborting.");
-                return;
-            }
             Bitmap blackAndWhiteImage = convertImageToGrey(original);
             Bitmap laplaceImage = convolve(blackAndWhiteImage, LAPLACE_KERNEL);
             if (this.debug){

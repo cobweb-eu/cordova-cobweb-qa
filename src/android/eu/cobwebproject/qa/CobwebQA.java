@@ -31,8 +31,7 @@ public class CobwebQA extends CordovaPlugin {
                 Log.i("CobwebQA", file);
 
                 File testImage = new File(file);
-                BlurCheckAndroid lap = new BlurCheckAndroid(testImage, threshold, debug);
-                lap.setContext(ctx); //required by RenderScript
+                BlurCheckAndroid lap = new BlurCheckAndroid(testImage, threshold, debug, ctx);
                 lap.run();
                 Log.i("CobwebQA", "---------------------------------------------------------------");
                 Log.i("CobwebQA", "result:" + lap.pass);
@@ -40,8 +39,7 @@ public class CobwebQA extends CordovaPlugin {
                 String file2 = Environment.getExternalStorageDirectory().toString() + "/Pictures/flower_sharp.jpg";
                 Log.i("CobwebQA", file2);
                 testImage = new File(file2);
-                lap = new BlurCheckAndroid(testImage, threshold, debug);
-                lap.setContext(ctx); //required by RenderScript
+                lap = new BlurCheckAndroid(testImage, threshold, debug,ctx);
                 lap.run();
                 Log.i("CobwebQA", "---------------------------------------------------------------");
                 Log.i("CobwebQA", "result:" + lap.pass);
