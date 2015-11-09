@@ -131,7 +131,7 @@ public class BlurCheckAndroid implements Runnable {
             Allocation allocOut = Allocation.createFromBitmap(rs, out);
 
             ScriptIntrinsicConvolve3x3 convolution
-                = ScriptIntrinsicConvolve3x3.create(rs, Element.U8_4(rs));
+                = ScriptIntrinsicConvolve3x3.create(rs, Element.U8_2(rs));
             convolution.setInput(allocIn);
             convolution.setCoefficients(k);
             convolution.forEach(allocOut);
