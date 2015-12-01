@@ -18,7 +18,7 @@
                  target-dir="src/eu/cobwebproject/qa/" />
     <source-file src="src/android/eu/cobwebproject/qa/automaticvalidation/BlurCheckAndroid.java"
                  target-dir="src/eu/cobwebproject/qa/automaticvalidation" />
-    <source-file src="src/cobweb-qa/src/main/java/eu/cobwebproject/qa/automaticvalidation/BlurCheckRunnable.java"
+    <source-file src="src/android/eu/cobwebproject/qa/automaticvalidation/BlurCheckRunnable.java"
                  target-dir="src/eu/cobwebproject/qa/automaticvalidation" />
   </platform>
 </plugin>
